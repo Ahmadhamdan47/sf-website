@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sudoku Forge – Unleash Your Mastery</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #fff;
+      color: #1E1E1E;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      height: 100px;
+      display: flex;
+      align-items: center;
+      padding: 0 40px;
+      gap: 24px;
+    }
+
+    .nav-logo img {
+      width: 73px;
+      height: auto;
+    }
+
+    .nav-links {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Inter', sans-serif;
+      font-style: normal;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 19px;
+      color: #1E1E1E;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+
+    .nav-links a:hover { opacity: 0.6; }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      background: linear-gradient(270deg, #F8E4CF 0%, #FFFFFF 49.82%, #DED7F4 99.99%);
+      border-radius: 0 0 40px 40px;
+      overflow: hidden;
+    }
+
+    /* ── DECORATIVE CIRCLES ── */
+    .circle {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    /* Ellipse 4 – large orange/pink, between text and phones */
+    .circle-orange {
+      width: 146px; height: 146px;
+      left: calc(887 / 1920 * 100%);
+      top: 209px;
+      background: linear-gradient(90deg, #FA5958 0%, #F5658F 50.74%, #FDB653 100%);
+    }
+
+    /* Ellipse 5 – large purple, top-right, half clipped */
+    .circle-purple-large {
+      width: 90px; height: 90px;
+      left: calc(1505 / 1920 * 100%);
+      top: -45px;
+      background: linear-gradient(90deg, #DD31FF 0%, #7D28EB 50%, #622DFD 100%);
+    }
+
+    /* Ellipse 6 – small lavender, right area */
+    .circle-lavender {
+      width: 24px; height: 24px;
+      left: calc(1459 / 1920 * 100%);
+      top: 163px;
+      background: linear-gradient(180deg, #DAA5DE 0%, #AC8BF0 100%);
+    }
+
+    /* Ellipse 7 – small blue, center-left area */
+    .circle-blue {
+      width: 32px; height: 32px;
+      left: calc(699 / 1920 * 100%);
+      top: 143px;
+      background: linear-gradient(180deg, #BCC7FA 0%, #B0A0F0 100%);
+    }
+
+    /* Ellipse 8 – tiny pink, far left */
+    .circle-pink {
+      width: 20px; height: 20px;
+      left: calc(136 / 1920 * 100%);
+      top: 459px;
+      background: linear-gradient(180deg, #EEC7EE 0%, #F9BED0 100%);
+    }
+
+    /* ── HERO INNER LAYOUT ── */
+    /* Matches Figma: Frame 31 at left:196px, top:225.75px */
+    .hero-content {
+      position: absolute;
+      left: 196px;
+      top: 225.75px;
+      display: flex;
+      flex-direction: column;
+      gap: 200px;
+    }
+
+    /* Frame 30 */
+    .hero-text-block {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      width: 733px;
+    }
+
+    /* Frame 3 */
+    .hero-title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      width: 733px;
+    }
+
+    .hero-title {
+      font-family: 'Inter', sans-serif;
+      font-style: normal;
+      font-weight: 700;
+      font-size: 72px;
+      line-height: 80px;
+      color: #000000;
+      width: 733px;
+    }
+
+    .hero-subtitle {
+      font-family: 'Inter', sans-serif;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 24px;
+      color: #383838;
+      width: 585px;
+    }
+
+    /* Store badges */
+    .store-badges {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .store-badges a {
+      display: block;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .store-badges a:hover {
+      opacity: 0.85;
+      transform: translateY(-2px);
+    }
+
+    .store-badges img {
+      height: 52px;
+      width: auto;
+    }
+
+    /* Scroll hint */
+    .scroll-hint {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 8px;
+      width: 230px;
+    }
+
+    .scroll-hint img {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+
+    .scroll-hint span {
+      font-family: 'Inter', sans-serif;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 17px;
+      color: #383838;
+    }
+
+    /* ── PHONES ── */
+    /* Matches Figma: left:1128.19px, top:169.95px, 617.97x670.6px */
+    .hero-phones {
+      position: absolute;
+      left: calc(1128.19 / 1920 * 100%);
+      top: 169.95px;
+      width: calc(617.97 / 1920 * 100%);
+      max-width: 618px;
+    }
+
+    .hero-phones img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1400px) {
+      .hero-content {
+        left: clamp(40px, 10vw, 196px);
+      }
+      .hero-title { font-size: clamp(40px, 4.5vw, 72px); line-height: 1.15; }
+      .hero-title-block, .hero-text-block, .hero-title { width: auto; max-width: 600px; }
+      .hero-subtitle { width: auto; max-width: 500px; }
+    }
+
+    @media (max-width: 1100px) {
+      .hero {
+        min-height: auto;
+        padding-bottom: 60px;
+      }
+      .hero-content {
+        position: relative;
+        left: auto;
+        top: auto;
+        padding: 120px 40px 60px;
+        gap: 48px;
+        align-items: flex-start;
+      }
+      .hero-phones {
+        position: relative;
+        left: auto;
+        top: auto;
+        width: 80%;
+        max-width: 500px;
+        margin: 0 auto;
+      }
+      .hero-title { font-size: clamp(36px, 5vw, 64px); line-height: 1.1; }
+      .hero-content { gap: 48px; }
+    }
+
+    @media (max-width: 700px) {
+      nav { padding: 20px 24px; }
+      .nav-links { gap: 20px; }
+      .nav-links a { font-size: 14px; }
+      .hero-content { padding: 90px 24px 48px; }
+      .store-badges { flex-direction: column; align-items: flex-start; }
+      .hero-title { font-size: clamp(32px, 8vw, 48px); }
+      .hero-subtitle { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <img src="logo.png" alt="Eduplica logo" />
+  </div>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#about">About Us</a></li>
+    <li><a href="#contact">Contact Us</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+
+  <!-- Decorative circles -->
+
+
+
+  <div class="circle circle-blue"></div>
+  <div class="circle circle-pink"></div>
+
+  <!-- Phones (right side, absolute) -->
+  <div class="hero-phones">
+    <img src="phones.png" alt="Sudoku Forge app screenshots" />
+  </div>
+
+  <!-- Left: text + badges + scroll hint -->
+  <div class="hero-content">
+
+    <div class="hero-text-block">
+      <div class="hero-title-block">
+        <h1 class="hero-title">Sudoku Forge<br>Unleash your mastery now</h1>
+        <p class="hero-subtitle">
+          Dive into the world of Sudoku with our fun emoji-themed mobile app! Challenge your brain with colorful puzzles that keep you entertained for hours. Whether you're a beginner or a Sudoku master, our app offers a variety of levels to suit everyone. Join the emoji adventure and sharpen your skills while having a blast!
+        </p>
+      </div>
+
+      <div class="store-badges">
+        <a href="#" aria-label="Download on the App Store">
+          <img src="apple.png" alt="Download on the App Store" />
+        </a>
+        <a href="#" aria-label="Get it on Google Play">
+          <img src="android.png" alt="Get it on Google Play" />
+        </a>
+      </div>
+    </div>
+
+    <div class="scroll-hint">
+      <img src="arrow.png" alt="" />
+      <span>Scroll down to explore features</span>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- Sections below -->
+<section id="features" style="height:200px;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:24px;color:#aaa;">Features section coming soon</section>
+
+<footer style="padding:24px 40px;display:flex;justify-content:center;align-items:center;gap:24px;border-top:1px solid #eee;">
+  <a href="privacy-policy.html" style="font-family:'Inter',sans-serif;font-size:12px;color:#aaa;text-decoration:none;">Privacy Policy</a>
+  <a href="terms-conditions.html" style="font-family:'Inter',sans-serif;font-size:12px;color:#aaa;text-decoration:none;">Terms &amp; Conditions</a>
+</footer>
+
+</body>
+</html>
